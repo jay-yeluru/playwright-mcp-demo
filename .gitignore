@@ -21,6 +21,9 @@ npm-debug.log*
 # TypeScript
 *.tsbuildinfo
 
+# Environment files (.env.example is tracked, .env is not)
+.env
+
 # Playwright Test Outputs
 test-results/
 playwright-report/

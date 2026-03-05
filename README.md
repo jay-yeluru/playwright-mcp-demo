@@ -1,98 +1,157 @@
-# Playwright MCP Demo
+# 🎭 Playwright + MCP: The Future of AI-Driven Testing 🤖
 
-This project demonstrates how to integrate and use the **Playwright Model Context Protocol (MCP) Server** with AI agents (like GitHub Copilot) to automate, plan, and heal your end-to-end tests intelligently.
+![Banner](assets/banner.png)
 
-## What is Playwright MCP?
+<div align="center">
+  <p><strong>Supercharging AI Agents to Write &amp; Heal Your UI Tests in Real-Time!</strong></p>
+  <p>
+    <img src="https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
+    <img src="https://img.shields.io/badge/AI_Agents-FF6F00?style=for-the-badge&logo=probot&logoColor=white" alt="AI Agents" />
+    <img src="https://img.shields.io/badge/MCP-000000?style=for-the-badge&logo=json&logoColor=white" alt="MCP Protocol" />
+    <a href="https://github.com/jay-yeluru/playwright-mcp/actions/workflows/ci.yml">
+      <img src="https://github.com/jay-yeluru/playwright-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" />
+    </a>
+  </p>
+</div>
 
-[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard that enables AI models to securely interact with local tools and data sources.
+---
 
-The `playwright run-test-mcp-server` is an official MCP server provided by Playwright. It exposes Playwright's core testing capabilities directly to AI agents. By connecting an agent framework to this MCP server, the AI can:
-* Execute Playwright tests and read results.
-* Analyze browser states (snapshots, console logs, network requests).
-* Automatically generate test steps, configure page setup, and write spec files.
-* Programmatically identify reasons for test failures, suggest locators, and intuitively heal broken tests.
+## ✨ The Magic of Playwright + MCP
 
-## Included Agent Roles
+Ever wish your AI assistant could actually **see** your app, **click** buttons, and **fix** its own mistakes? 
 
-This project includes specific AI agent instructions located in `.github/agents/` that leverage the Playwright MCP server:
+By leveraging the **Model Context Protocol (MCP)**, we've given our AI agents "hands" and "eyes." Instead of just guessing what your HTML looks like, the AI now interacts with a live browser instance through the Playwright MCP Server.
 
-1. **`playwright-test-planner`**: Exploratory testing agent. Designed to browse a target application, identify UI elements, and generate comprehensive markdown test plans.
-2. **`playwright-test-generator`**: Test implementation agent. Consumes a test plan (e.g., `e2e/specs/demo-plan.md`) and a seed test file (`e2e/tests/seed.spec.ts`), executes the behavior natively in the browser, and writes out completed Playwright `*.spec.ts` files with perfect locators.
-3. **`playwright-test-healer`**: Debugging agent. Whenever a test fails, this agent will execute it using the Playwright debug tools to analyze snapshots and locators, fix the assertions or selectors in the code, and re-test until green.
+### 🚀 Key Superpowers
+- 👁️ **Visual Intelligence:** The AI sees your app exactly as a user does.
+- ⚡ **Auto-Healing:** Tests break? The AI detects the change and fixes the code instantly.
+- ✍️ **Zero-Code Testing:** Describe a scenario in plain English; the AI writes the `.spec.ts` for you.
+- 🕵️ **DOM Mastery:** Real-time analysis of the actual DOM to find the most resilient locators.
 
-## Project Structure
+---
 
-This project uses a structured architecture to cleanly separate *requirements*, *framework objects*, and *test execution*:
+## 🦸‍♂️ Meet the Agent Squad
 
-* **`e2e/specs/` (The Test Plans):** This folder contains plain-English markdown files (e.g., `demo-plan.md`). These describe the features and scenarios the app should support. An AI agent reads these specs to understand *what* needs to be tested before generating code.
-* **`e2e/pages/` (The Page Object Model):** The Page Object Model (POM) is a design pattern that creates an object repository for web UI elements. Files in this directory (e.g., `TodoPage.ts`) encapsulate all Playwright locators (`page.locator()`) and interactions for a specific page. This makes tests highly reusable, readable, and easier for AI to maintain.
-* **`e2e/tests/` (The Executable Tests):** This directory contains the actual Playwright `.spec.ts` files that are executed. The AI Generator creates or updates these files by combining instructions from `e2e/specs/` with the reusable methods defined in the `e2e/pages/` POM.
+We've recruited three specialized AI agents (found in `.github/agents/`) to handle every stage of your testing lifecycle.
 
-## Getting Started
+| The Planner | The Generator | The Healer |
+| :---: | :---: | :---: |
+| ![Planner](assets/planner.png) | ![Generator](assets/generator.png) | ![Healer](assets/healer.png) |
+| **Architect of Journeys** | **The Master Builder** | **The Test Doctor** |
+| Scans your URL and drafts the perfect test strategy. | Turns plain-English plans into production-ready code. | Diagnoses failures and repairs broken locators automatically. |
 
-### Prerequisites
-* Node.js v18+
-* Ensure Playwright browsers are installed:
-  ```bash
-  npx playwright install chromium
-  ```
+---
 
-### Running the Tests
-To run the included standard demo tests manually:
+## 🗺️ How It Works (The Blueprint)
+
+This repository follows a rock-solid, AI-friendly architecture. The AI reads your **Test Plans**, uses your **Page Objects**, and controls a browser via the **MCP Server**.
+
+```mermaid
+graph TD
+    A[Human: Describe Scenario] -->|Natural Language| B(e2e/specs/plan.md)
+    B --> C{AI Agent}
+    C -->|Invokes| D[Playwright MCP Server]
+    D -->|Controls| E[Live Browser]
+    E -->|Snapshots/Logs| D
+    D -->|Context| C
+    C -->|Writes Code| F(e2e/tests/todo.spec.ts)
+    F -->|Self-Heals| C
+```
+
+---
+
+## 🕹️ Let's Play! (Quick Start)
+
+### Step 0: Set up your environment 🌍
+
+```bash
+# Install dependencies
+npm install
+
+# Copy the env template and (optionally) change BASE_URL
+cp .env.example .env
+
+# Install browsers
+npx playwright install chromium
+```
+
+### Step 1: Fire up your AI 🔌
+Your AI needs to know the MCP tools exist.
+- **VS Code:** MCP-compatible extensions (Copilot / Cline) auto-read `.vscode/mcp.json`.
+- **Claude Desktop:** Add the same settings to your `claude_desktop_config.json`.
+
+### Step 2: Summon the Generator 🪄
+Open your AI chat window and type:
+
+> *"Use your Playwright MCP tools to open the app, inspect the live DOM, and add meaningful test steps to the 'seed' test in `e2e/tests/seed.spec.ts`. Use the `todoPage` POM methods and the `TODO_ITEMS` data constants. Group new tests in describe blocks by feature."*
+
+> 💡 **Tip:** Check `e2e/tests/todo.spec.ts` to see the reference implementation — that's the "after" state showing what great AI-generated tests look like.
+
+### Step 3: Run the suite ▶️
+
 ```bash
 npm run test
 ```
 
-### Running the MCP Server
-To manually start the Playwright MCP Server on your machine:
-```bash
-npm run mcp
-# Which executes: npx playwright run-test-mcp-server
+### Step 4: Unleash the Test Healer 🩺
+Locators break. Let's make the AI fix one.
+
+1. **Break It:** Open `e2e/pages/TodoPage.ts` and change `.new-todo` to `.broken-input`.
+2. **Watch It Fail:** Run `npm run test` and watch the crash. 🔥
+3. **Call The Doctor:** Prompt your AI:
+> *"My tests are failing. Act as a test healer. Use your Playwright MCP debug tools to investigate the failure, find the correct locator in the live DOM, and fix `TodoPage.ts`."*
+
+---
+
+## 📂 Project Anatomy
+
+```text
+playwright-mcp/
+├── .github/
+│   ├── agents/          🤖 AI Brains (Planner, Generator, Healer)
+│   └── workflows/
+│       └── ci.yml       🔄 GitHub Actions CI pipeline
+├── e2e/
+│   ├── data/
+│   │   └── todo.data.ts 📦 Typed test data (no hardcoded strings in specs)
+│   ├── fixtures/
+│   │   └── base.ts      🔌 Custom fixtures (auto-injects TodoPage)
+│   ├── pages/
+│   │   └── TodoPage.ts  🧱 Page Object Model + assertion helpers
+│   ├── specs/
+│   │   └── demo-plan.md 📄 Plain-English test plan (AI entry point)
+│   └── tests/
+│       ├── seed.spec.ts 🌱 Blank canvas — AI writes tests here (demo entry point)
+│       └── todo.spec.ts ✅ Reference implementation — the finished "after" state
+├── .env.example         🌍 Environment template
+├── playwright.config.ts ⚙️  Env-aware Playwright configuration
+└── package.json         📦 Scripts & dependencies
 ```
-*Note: In an actual AI Agent setup (like VS Code Copilot with MCP tool support or Claude Desktop), the server is typically invoked automatically via standard input/output (stdio) when the prompt tools are requested.*
 
-## Beginner's Step-by-Step Guide
+### Separation of Concerns
 
-This guide will walk you through, step-by-step, how to use this project with an AI agent (like GitHub Copilot in VS Code or Claude Desktop) to write and heal playright tests automatically using MCP.
+| Layer | File(s) | Responsibility |
+|---|---|---|
+| **Config** | `playwright.config.ts`, `.env` | Where to run, how to report |
+| **Data** | `e2e/data/todo.data.ts` | What to test (typed strings) |
+| **Pages** | `e2e/pages/TodoPage.ts` | How to interact (locators + actions) |
+| **Fixtures** | `e2e/fixtures/base.ts` | Setup / teardown wiring |
+| **Demo** | `e2e/tests/seed.spec.ts` | 🌱 Blank canvas — give this to the AI |
+| **Reference** | `e2e/tests/todo.spec.ts` | ✅ Finished implementation to compare against |
 
-### Step 1: Client Setup (Connecting the AI to MCP)
-For your AI workspace to realize it has access to the Playwright tools, it needs to be configured to talk to the MCP server.
+---
 
-**For VS Code (using an MCP-compatible extension):**  
-This repository already includes `.vscode/mcp.json`. Extensions that support MCP will automatically read this file and start the `playwright run-test-mcp-server` so the AI can use it.
+## 🛠️ Prerequisites
 
-**For Claude Desktop:**  
-You would configure your `claude_desktop_config.json` with the same `stdio` command to run the Playwright MCP server inside this folder.
+| Requirement | Version |
+|---|---|
+| Node.js | v18 or higher |
+| Playwright | installed via `npm install` |
+| Chromium | `npx playwright install chromium` |
 
-### Step 2: The Action Plan
-We've included a plain-english test plan inside `e2e/specs/demo-plan.md`. This plan simply tells the AI what standard behaviors a Todo app has (Add a todo, complete a todo, etc).  
-Open this file to see what we want to test.
+---
 
-### Step 3: Prompting the AI to Generate Tests 🪄
-Open your AI chat window (e.g. Copilot Edits or Claude).  
-
-Type the following prompt. You must *mention* (`@` or `#`) the files so the AI reads them:
-> *"Read the test scenarios in `e2e/specs/demo-plan.md`. Use the `e2e/tests/seed.spec.ts` as the starting file template. I want you to act as the test generator. Use your Playwright MCP tools to navigate the site, figure out the locators, and generate the final Playwright test code directly inside `e2e/tests/seed.spec.ts`."*
-
-**What happens next?**
-1. The AI uses the MCP server to open a hidden (or visible) chromium browser.
-2. It interacts with `https://demo.playwright.dev/todomvc/`.
-3. It figures out the perfect `.css` / `text` locators (like `.new-todo`).
-4. It edits `e2e/tests/seed.spec.ts` with the fully automated script!
-
-### Step 4: Verify the Tests manually!
-Now, just run it like a regular developer.
-```bash
-npm run test
-```
-Everything should pass green ✅, meaning the AI successfully wrote end-to-end tests for you by actually driving the browser behind the scenes!
-
-### Step 5: Heal a Broken Test 🩺
-Software changes, and locators break. MCP can fix them.
-
-1. **Break it:** Manually open `e2e/tests/seed.spec.ts` and change a valid locator the AI wrote to something wrong (e.g., change `.new-todo` to `.broken-input`).
-2. **Fail it:** Run `npm run test` to see it fail.
-3. **Heal it:** Go back to your AI Chat and simply prompt:
-> *"My tests are failing. Act as a test healer. Use your Playwright MCP debug tools to investigate the test run, find out why the locator is failing, figure out the new correct locator, and fix the file."*
-
-The AI will spin up Playwright MCP, read the error stack, snapshot the page again, and fix your broke code!
+<div align="center">
+  <h3>Ready to build the future of testing?</h3>
+  <p>Star this repo and let the AI do the heavy lifting! ⭐</p>
+</div>
