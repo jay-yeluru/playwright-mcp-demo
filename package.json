@@ -1,0 +1,27 @@
+{
+  "name": "playwright-mcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "mcp": "npx playwright run-test-mcp-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jay-yeluru/playwright-mcp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jay-yeluru/playwright-mcp/issues"
+  },
+  "homepage": "https://github.com/jay-yeluru/playwright-mcp#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.3",
+    "typescript": "^5.9.3"
+  }
+}
