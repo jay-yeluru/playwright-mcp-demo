@@ -39,7 +39,7 @@ The AI reads your test plan, uses your Page Objects, and controls a live browser
 graph TD
     A[Human: Describe Scenario] -->|Natural Language| B(e2e/specs/plan.md)
     B --> C{AI Agent}
-    C -->|Invokes| D[@playwright/mcp Server]
+    C -->|Invokes| D["@playwright/mcp Server"]
     D -->|Controls| E[Live Browser]
     E -->|Snapshots/DOM| D
     D -->|Context| C
