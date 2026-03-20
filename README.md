@@ -8,8 +8,8 @@
     <img src="https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
     <img src="https://img.shields.io/badge/AI_Agents-FF6F00?style=for-the-badge&logo=probot&logoColor=white" alt="AI Agents" />
     <img src="https://img.shields.io/badge/MCP-000000?style=for-the-badge&logo=json&logoColor=white" alt="MCP Protocol" />
-    <a href="https://github.com/jay-yeluru/playwright-mcp/actions/workflows/ci.yml">
-      <img src="https://github.com/jay-yeluru/playwright-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" />
+    <a href="https://github.com/jay-yeluru/playwright-mcp-demo/actions/workflows/ci.yml">
+      <img src="https://github.com/jay-yeluru/playwright-mcp-demo/actions/workflows/ci.yml/badge.svg" alt="CI" />
     </a>
   </p>
 </div>
@@ -51,57 +51,26 @@ graph TD
 
 ## 🕹️ Quick Start
 
-### Step 0: Set up your environment
+### Step 1: Clone and Setup
 
 ```bash
-# Install dependencies
+# Clone the repo
+git clone https://github.com/jay-yeluru/playwright-mcp-demo.git
+cd playwright-mcp-demo
+
+# Install dependencies & browsers
 npm install
-
-# Copy the env template and (optionally) update BASE_URL
-cp .env.example .env
-
-# Install browsers
 npx playwright install chromium
+
+# Copy the env template
+cp .env.example .env
 ```
+
+> **Note on `@playwright/mcp`:** This package is already in `package.json`. To add it to your own project, run `npm install @playwright/mcp --save-dev`. Do **not** use `playwright run-test-mcp-server` (shipped with `@playwright/test`) as it only exposes test-runner tools, not live browser control.
 
 ---
 
-### Step 1: Install `@playwright/mcp`
-
-Install it as a dev dependency so it's pinned to your project and doesn't prompt on every run:
-
-```bash
-npm install @playwright/mcp --save-dev
-```
-
-Verify it's in `package.json`:
-
-```bash
-cat package.json | grep playwright
-```
-
-You should see:
-
-```json
-"devDependencies": {
-  "@playwright/mcp": "^0.0.x"
-}
-```
-
-Also make sure your `package.json` scripts use `@playwright/mcp` and **not** `playwright run-test-mcp-server`:
-
-```json
-"scripts": {
-  "test": "playwright test",
-  "mcp": "npx @playwright/mcp"
-}
-```
-
-> ⚠️ `playwright run-test-mcp-server` ships with `@playwright/test` and only exposes test-runner tools — it does **not** give the AI live browser control. They are different packages.
-
----
-
-### Step 2: Connect `@playwright/mcp` to your AI
+### Step 2: Connect to AI
 
 **VS Code (GitHub Copilot Agent mode)** ⭐ recommended — create `.vscode/mcp.json` in your project root:
 
@@ -130,7 +99,7 @@ Also make sure your `package.json` scripts use `@playwright/mcp` and **not** `pl
       "env": {
         "PATH": "/usr/local/bin:/usr/bin:/bin"
       },
-      "cwd": "/absolute/path/to/playwright-mcp"
+      "cwd": "/absolute/path/to/playwright-mcp-demo"
     }
   }
 }
@@ -216,7 +185,7 @@ Locators break. Let the AI fix them.
 ## 📂 Project Structure
 
 ```text
-playwright-mcp/
+playwright-mcp-demo/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml            🔄 GitHub Actions CI pipeline
@@ -269,7 +238,7 @@ playwright-mcp/
 
 ## ❓ Having Issues?
 
-See the [Troubleshooting section in SETUP.md](docs/SETUP.md#8-troubleshooting) for detailed diagnosis of the most common problems.
+See the [Common Errors and Fixes section in SETUP.md](docs/SETUP.md#7-common-errors-and-fixes) for detailed diagnosis of the most common problems.
 
 | Symptom                                          | Quick fix                                                                  |
 | ------------------------------------------------ | -------------------------------------------------------------------------- |

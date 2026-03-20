@@ -57,8 +57,8 @@ If not installed, download from [git-scm.com](https://git-scm.com).
 ### Clone the repository
 
 ```bash
-git clone https://github.com/jay-yeluru/playwright-mcp.git
-cd playwright-mcp
+git clone https://github.com/jay-yeluru/playwright-mcp-demo.git
+cd playwright-mcp-demo
 ```
 
 ### Install all dependencies
@@ -153,12 +153,12 @@ pwd
 Example output:
 
 ```
-/Users/jay/learn/automation/playwright-mcp
+/Users/jay/learn/automation/playwright-mcp-demo
 ```
 
 Save this — you'll need it in the config below.
 
-> **Windows users:** Run `pwd` in PowerShell. Use forward slashes in JSON configs, e.g. `C:/Users/jay/projects/playwright-mcp`.
+> **Windows users:** Run `pwd` in PowerShell. Use forward slashes in JSON configs, e.g. `C:/Users/jay/projects/playwright-mcp-demo`.
 
 ---
 
@@ -184,7 +184,7 @@ Open it in any text editor. If it doesn't exist, create it.
       "env": {
         "PATH": "/usr/local/bin:/usr/bin:/bin"
       },
-      "cwd": "/Users/jay/learn/automation/playwright-mcp"
+      "cwd": "/Users/jay/learn/automation/playwright-mcp-demo"
     }
   }
 }
@@ -270,7 +270,7 @@ This opens `mcp_config.json` directly in the editor.
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp"],
-      "cwd": "/Users/jay/learn/automation/playwright-mcp"
+      "cwd": "/Users/jay/learn/automation/playwright-mcp-demo"
     }
   }
 }

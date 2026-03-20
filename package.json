@@ -1,5 +1,5 @@
 {
-  "name": "playwright-mcp",
+  "name": "playwright-mcp-demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jay-yeluru/playwright-mcp.git"
+    "url": "git+https://github.com/jay-yeluru/playwright-mcp-demo.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/jay-yeluru/playwright-mcp/issues"
+    "url": "https://github.com/jay-yeluru/playwright-mcp-demo/issues"
   },
-  "homepage": "https://github.com/jay-yeluru/playwright-mcp#readme",
+  "homepage": "https://github.com/jay-yeluru/playwright-mcp-demo#readme",
   "devDependencies": {
     "@playwright/mcp": "^0.0.68",
     "@playwright/test": "^1.58.2",
