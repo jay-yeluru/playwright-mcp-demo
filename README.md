@@ -1,9 +1,9 @@
-# 🎭 Playwright + MCP: The Future of AI-Driven Testing 🤖
+# 🎭 Playwright + MCP: AI-Driven Browser Automation 🤖
 
 ![Banner](assets/banner.png)
 
 <div align="center">
-  <p><strong>Supercharging AI Agents to Write &amp; Heal Your UI Tests in Real-Time!</strong></p>
+  <p><strong>Give AI agents eyes and hands to write, run, and heal your UI tests in real-time.</strong></p>
   <p>
     <img src="https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
     <img src="https://img.shields.io/badge/AI_Agents-FF6F00?style=for-the-badge&logo=probot&logoColor=white" alt="AI Agents" />
@@ -16,43 +16,32 @@
 
 ---
 
-## ✨ The Magic of Playwright + MCP
+## ✨ What This Is
 
-Ever wish your AI assistant could actually **see** your app, **click** buttons, and **fix** its own mistakes? 
+Ever wish your AI assistant could actually **see** your app, **click** buttons, and **fix** its own mistakes?
 
-By leveraging the **Model Context Protocol (MCP)**, we've given our AI agents "hands" and "eyes." Instead of just guessing what your HTML looks like, the AI now interacts with a live browser instance through the Playwright MCP Server.
+By leveraging **`@playwright/mcp`**, we give AI agents a live browser to interact with. Instead of guessing what your HTML looks like, the AI navigates a real browser instance, reads the actual DOM, and generates resilient, production-ready Playwright tests.
 
-### 🚀 Key Superpowers
-- 👁️ **Visual Intelligence:** The AI sees your app exactly as a user does.
-- ⚡ **Auto-Healing:** Tests break? The AI detects the change and fixes the code instantly.
-- ✍️ **Zero-Code Testing:** Describe a scenario in plain English; the AI writes the `.spec.ts` for you.
-- 🕵️ **DOM Mastery:** Real-time analysis of the actual DOM to find the most resilient locators.
+### 🚀 Key Capabilities
 
----
-
-## 🦸‍♂️ Meet the Agent Squad
-
-We've recruited three specialized AI agents (found in `.github/agents/`) to handle every stage of your testing lifecycle.
-
-| The Planner | The Generator | The Healer |
-| :---: | :---: | :---: |
-| ![Planner](assets/planner.png) | ![Generator](assets/generator.png) | ![Healer](assets/healer.png) |
-| **Architect of Journeys** | **The Master Builder** | **The Test Doctor** |
-| Scans your URL and drafts the perfect test strategy. | Turns plain-English plans into production-ready code. | Diagnoses failures and repairs broken locators automatically. |
+- 👁️ **Visual Intelligence** — the AI sees your app exactly as a user does
+- ⚡ **Auto-Healing** — tests break? the AI detects the change and fixes locators instantly
+- ✍️ **Zero-Code Test Writing** — describe a scenario in plain English; the AI writes the `.spec.ts`
+- 🕵️ **DOM Mastery** — real-time DOM analysis to find the most resilient selectors
 
 ---
 
-## 🗺️ How It Works (The Blueprint)
+## 🗺️ How It Works
 
-This repository follows a rock-solid, AI-friendly architecture. The AI reads your **Test Plans**, uses your **Page Objects**, and controls a browser via the **MCP Server**.
+The AI reads your test plan, uses your Page Objects, and controls a live browser via the `@playwright/mcp` server.
 
 ```mermaid
 graph TD
     A[Human: Describe Scenario] -->|Natural Language| B(e2e/specs/plan.md)
     B --> C{AI Agent}
-    C -->|Invokes| D[Playwright MCP Server]
+    C -->|Invokes| D[@playwright/mcp Server]
     D -->|Controls| E[Live Browser]
-    E -->|Snapshots/Logs| D
+    E -->|Snapshots/DOM| D
     D -->|Context| C
     C -->|Writes Code| F(e2e/tests/todo.spec.ts)
     F -->|Self-Heals| C
@@ -60,91 +49,97 @@ graph TD
 
 ---
 
-## 🕹️ Let's Play! (Quick Start)
+## 🕹️ Quick Start
 
-### Step 0: Set up your environment 🌍
+### Step 0: Set up your environment
 
 ```bash
 # Install dependencies
 npm install
 
-# Copy the env template and (optionally) change BASE_URL
+# Copy the env template and (optionally) update BASE_URL
 cp .env.example .env
 
 # Install browsers
 npx playwright install chromium
 ```
 
-### Step 1: Fire up your AI 🔌
-Your AI needs to know the MCP tools exist.
-- **VS Code:** MCP-compatible extensions (Copilot / Cline) auto-read `.vscode/mcp.json`.
-- **Claude Desktop:** Add the following to your `claude_desktop_config.json` (make sure to replace `/absolute/path/to/` with your actual path):
+### Step 1: Connect `@playwright/mcp` to your AI
+
+Your AI needs to know the MCP tools are available.
+
+- **VS Code:** MCP-compatible extensions (Copilot / Cline) auto-read `.vscode/mcp.json`
+- **Claude Desktop:** Add the following to your `claude_desktop_config.json`, replacing `/absolute/path/to/` with your actual path:
 
 ```json
 {
   "mcpServers": {
-    "playwright-test": {
+    "playwright": {
       "command": "npx",
-      "args": ["playwright", "run-test-mcp-server"],
+      "args": ["@playwright/mcp"],
       "env": {
-        "PATH": "..." // Ensure Node.js and npx are in the PATH
+        "PATH": "..."
       },
-      "cwd": "/absolute/path/to/playwright-mcp" // Update this!
+      "cwd": "/absolute/path/to/playwright-mcp"
     }
   }
 }
 ```
 
-### Step 2: Summon the Generator 🪄
-Open your AI chat window. You have two options for the demo:
+### Step 2: Generate tests with AI
 
-**Option A: The fully autonomous demo (Freestyle)**  
-*The AI writes the whole suite from scratch based solely on what it sees in the browser.*
-> *"Use your Playwright MCP tools to open the app at `https://demo.playwright.dev/todomvc`, inspect the live DOM, and write a full test suite from scratch in `e2e/tests/seed.spec.ts`. Use the `todoPage` POM methods and the `TODO_ITEMS` data constants. Group new tests in describe blocks by feature."*
+Open your AI chat window. Two modes available:
 
-**Option B: The \"fill in the gaps\" demo (Compare & Contrast)**  
-*The AI observes an existing pattern, explores the app to find missing test coverage, and writes tests that you can then compare against the reference file.*
+**Option A — Freestyle (fully autonomous)**
+*The AI writes the whole suite from scratch based on what it sees in the live browser.*
+
+> *"Use your Playwright MCP tools to open the app at `https://demo.playwright.dev/todomvc`, inspect the live DOM, and write a full test suite from scratch in `e2e/tests/seed.spec.ts`. Use the `todoPage` POM methods and the `TODO_ITEMS` data constants. Group tests in describe blocks by feature."*
+
+**Option B — Fill the Gaps (compare & contrast)**
+*The AI explores the app to find missing coverage, writes tests, then compares against the reference file.*
+
 > *"Run the tests. `seed.spec.ts` only checks that the app loads. Use MCP to explore the live TodoMVC app and add tests to `seed.spec.ts` for features not yet covered. Check `todo.spec.ts` afterwards to compare your output to the reference implementation."*
 
-### Step 3: Run the suite ▶️
+### Step 3: Run the suite
 
 ```bash
 npm run test
 ```
 
-### Step 4: Unleash the Test Healer 🩺
-Locators break. Let's make the AI fix one.
+### Step 4: Auto-heal broken tests
 
-1. **Break It:** Open `e2e/pages/TodoPage.ts` and change `.new-todo` to `.broken-input`.
-2. **Watch It Fail:** Run `npm run test` and watch the crash. 🔥
-3. **Call The Doctor:** Prompt your AI:
-> *"My tests are failing. Act as a test healer. Use your Playwright MCP debug tools to investigate the failure, find the correct locator in the live DOM, and fix `TodoPage.ts`."*
+Locators break. Let the AI fix them.
+
+1. **Break it:** Open `e2e/pages/TodoPage.ts` and change `.new-todo` to `.broken-input`
+2. **Watch it fail:** Run `npm run test` — observe the crash 🔥
+3. **Heal it:** Prompt your AI:
+
+> *"My tests are failing. Use your Playwright MCP tools to open the live app, inspect the DOM, find the correct locator, and fix `TodoPage.ts`."*
 
 ---
 
-## 📂 Project Anatomy
+## 📂 Project Structure
 
 ```text
 playwright-mcp/
 ├── .github/
-│   ├── agents/          🤖 AI Brains (Planner, Generator, Healer)
 │   └── workflows/
-│       └── ci.yml       🔄 GitHub Actions CI pipeline
+│       └── ci.yml            🔄 GitHub Actions CI pipeline
 ├── e2e/
 │   ├── data/
-│   │   └── todo.data.ts 📦 Typed test data (no hardcoded strings in specs)
+│   │   └── todo.data.ts      📦 Typed test data (no hardcoded strings in specs)
 │   ├── fixtures/
-│   │   └── base.ts      🔌 Custom fixtures (auto-injects TodoPage)
+│   │   └── base.ts           🔌 Custom fixtures (auto-injects TodoPage)
 │   ├── pages/
-│   │   └── TodoPage.ts  🧱 Page Object Model + assertion helpers
+│   │   └── TodoPage.ts       🧱 Page Object Model + assertion helpers
 │   ├── specs/
-│   │   └── demo-plan.md 📄 Plain-English test plan (AI entry point)
+│   │   └── demo-plan.md      📄 Plain-English test plan (AI entry point)
 │   └── tests/
-│       ├── seed.spec.ts 🌱 Blank canvas — AI writes tests here (demo entry point)
-│       └── todo.spec.ts ✅ Reference implementation — the finished "after" state
-├── .env.example         🌍 Environment template
-├── playwright.config.ts ⚙️  Env-aware Playwright configuration
-└── package.json         📦 Scripts & dependencies
+│       ├── seed.spec.ts      🌱 Blank canvas — AI writes tests here
+│       └── todo.spec.ts      ✅ Reference implementation
+├── .env.example              🌍 Environment template
+├── playwright.config.ts      ⚙️  Env-aware Playwright configuration
+└── package.json              📦 Scripts & dependencies
 ```
 
 ### Separation of Concerns
@@ -165,12 +160,12 @@ playwright-mcp/
 | Requirement | Version |
 |---|---|
 | Node.js | v18 or higher |
-| Playwright | installed via `npm install` |
+| @playwright/mcp | installed via `npm install` |
 | Chromium | `npx playwright install chromium` |
 
 ---
 
 <div align="center">
-  <h3>Ready to build the future of testing?</h3>
-  <p>Star this repo and let the AI do the heavy lifting! ⭐</p>
+  <h3>Ready to let AI write and heal your tests?</h3>
+  <p>Star this repo and let the browser do the talking. ⭐</p>
 </div>

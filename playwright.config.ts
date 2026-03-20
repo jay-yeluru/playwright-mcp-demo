@@ -16,7 +16,7 @@ const BASE_URL =
     process.env.BASE_URL ?? 'https://demo.playwright.dev';
 
 export default defineConfig({
-    testDir: './e2e/tests',
+    testDir: './tests/',
 
     /* Run tests in files in parallel */
     fullyParallel: true,
