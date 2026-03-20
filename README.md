@@ -107,7 +107,7 @@ cp .env.example .env
 
 **Antigravity IDE** — open Agent session → **"…"** → MCP Servers → Manage MCP Servers → View raw config, then add the same config as Claude Desktop above. Note: `${workspaceFolder}` is not supported — use an absolute path.
 
-> For full step-by-step setup instructions for each tool, see [docs/SETUP.md](docs/SETUP.md).
+> For full step-by-step setup instructions for each tool, see [docs/setup.md](docs/setup.md).
 
 ---
 
@@ -192,7 +192,7 @@ playwright-mcp-demo/
 ├── data/
 │   └── todo.data.ts          📦 Typed test data (no hardcoded strings in specs)
 ├── docs/
-│   └── SETUP.md              📖 Complete setup guide for all AI tools
+│   └── setup.md              📖 Complete setup guide for all AI tools
 ├── fixtures/
 │   └── base.ts               🔌 Custom fixtures (auto-injects TodoPage)
 ├── pages/
@@ -232,13 +232,13 @@ playwright-mcp-demo/
 
 ## 📖 Documentation
 
-- [Complete Setup Guide](docs/SETUP.md) — step-by-step for VS Code, Claude Desktop, and Antigravity IDE, with troubleshooting
+- [Complete Setup Guide](docs/setup.md) — step-by-step for VS Code, Claude Desktop, and Antigravity IDE, with troubleshooting
 
 ---
 
 ## ❓ Having Issues?
 
-See the [Common Errors and Fixes section in SETUP.md](docs/SETUP.md#7-common-errors-and-fixes) for detailed diagnosis of the most common problems.
+See the [Common Errors and Fixes section in setup.md](docs/setup.md#7-common-errors-and-fixes) for detailed diagnosis of the most common problems.
 
 | Symptom                                          | Quick fix                                                                  |
 | ------------------------------------------------ | -------------------------------------------------------------------------- |
