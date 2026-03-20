@@ -37,13 +37,13 @@ The AI reads your test plan, uses your Page Objects, and controls a live browser
 
 ```mermaid
 graph TD
-    A[Human: Describe Scenario] -->|Natural Language| B(e2e/specs/plan.md)
+    A[Human: Describe Scenario] -->|Natural Language| B(specs/test-plan.md)
     B --> C{AI Agent}
     C -->|Invokes| D["@playwright/mcp Server"]
     D -->|Controls| E[Live Browser]
     E -->|Snapshots/DOM| D
     D -->|Context| C
-    C -->|Writes Code| F(e2e/tests/todo.spec.ts)
+    C -->|Writes Code| F(tests/todo.spec.ts)
     F -->|Self-Heals| C
 ```
 
@@ -93,7 +93,7 @@ Open your AI chat window. Two modes available:
 **Option A — Freestyle (fully autonomous)**
 *The AI writes the whole suite from scratch based on what it sees in the live browser.*
 
-> *"Use your Playwright MCP tools to open the app at `https://demo.playwright.dev/todomvc`, inspect the live DOM, and write a full test suite from scratch in `e2e/tests/seed.spec.ts`. Use the `todoPage` POM methods and the `TODO_ITEMS` data constants. Group tests in describe blocks by feature."*
+> *"Use your Playwright MCP tools to open the app at `https://demo.playwright.dev/todomvc`, inspect the live DOM, and write a full test suite from scratch in `tests/seed.spec.ts`. Use the `todoPage` POM methods and the `TODO_ITEMS` data constants. Group tests in describe blocks by feature."*
 
 **Option B — Fill the Gaps (compare & contrast)**
 *The AI explores the app to find missing coverage, writes tests, then compares against the reference file.*
@@ -110,7 +110,7 @@ npm run test
 
 Locators break. Let the AI fix them.
 
-1. **Break it:** Open `e2e/pages/TodoPage.ts` and change `.new-todo` to `.broken-input`
+1. **Break it:** Open `pages/TodoPage.ts` and change `.new-todo` to `.broken-input`
 2. **Watch it fail:** Run `npm run test` — observe the crash 🔥
 3. **Heal it:** Prompt your AI:
 
@@ -125,18 +125,17 @@ playwright-mcp/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml            🔄 GitHub Actions CI pipeline
-├── e2e/
-│   ├── data/
-│   │   └── todo.data.ts      📦 Typed test data (no hardcoded strings in specs)
-│   ├── fixtures/
-│   │   └── base.ts           🔌 Custom fixtures (auto-injects TodoPage)
-│   ├── pages/
-│   │   └── TodoPage.ts       🧱 Page Object Model + assertion helpers
-│   ├── specs/
-│   │   └── demo-plan.md      📄 Plain-English test plan (AI entry point)
-│   └── tests/
-│       ├── seed.spec.ts      🌱 Blank canvas — AI writes tests here
-│       └── todo.spec.ts      ✅ Reference implementation
+├── data/
+│   └── todo.data.ts      📦 Typed test data (no hardcoded strings in specs)
+├── fixtures/
+│   └── base.ts           🔌 Custom fixtures (auto-injects TodoPage)
+├── pages/
+│   └── TodoPage.ts       🧱 Page Object Model + assertion helpers
+├── specs/
+│   └── test-plan.md      📄 Plain-English test plan (AI entry point)
+├── tests/
+│   ├── seed.spec.ts      🌱 Blank canvas — AI writes tests here
+│   └── todo.spec.ts      ✅ Reference implementation
 ├── .env.example              🌍 Environment template
 ├── playwright.config.ts      ⚙️  Env-aware Playwright configuration
 └── package.json              📦 Scripts & dependencies
@@ -147,11 +146,11 @@ playwright-mcp/
 | Layer | File(s) | Responsibility |
 |---|---|---|
 | **Config** | `playwright.config.ts`, `.env` | Where to run, how to report |
-| **Data** | `e2e/data/todo.data.ts` | What to test (typed strings) |
-| **Pages** | `e2e/pages/TodoPage.ts` | How to interact (locators + actions) |
-| **Fixtures** | `e2e/fixtures/base.ts` | Setup / teardown wiring |
-| **Demo** | `e2e/tests/seed.spec.ts` | 🌱 Blank canvas — give this to the AI |
-| **Reference** | `e2e/tests/todo.spec.ts` | ✅ Finished implementation to compare against |
+| **Data** | `data/todo.data.ts` | What to test (typed strings) |
+| **Pages** | `pages/TodoPage.ts` | How to interact (locators + actions) |
+| **Fixtures** | `fixtures/base.ts` | Setup / teardown wiring |
+| **Demo** | `tests/seed.spec.ts` | 🌱 Blank canvas — give this to the AI |
+| **Reference** | `tests/todo.spec.ts` | ✅ Finished implementation to compare against |
 
 ---
 
