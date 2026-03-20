@@ -64,12 +64,46 @@ cp .env.example .env
 npx playwright install chromium
 ```
 
-### Step 1: Connect `@playwright/mcp` to your AI
+---
 
-Your AI needs to know the MCP tools are available.
+### Step 1: Install `@playwright/mcp`
 
-- **VS Code:** MCP-compatible extensions (Copilot / Cline) auto-read `.vscode/mcp.json`
-- **Claude Desktop:** Add the following to your `claude_desktop_config.json`, replacing `/absolute/path/to/` with your actual path:
+Install it as a dev dependency so it's pinned to your project and doesn't prompt on every run:
+
+```bash
+npm install @playwright/mcp --save-dev
+```
+
+Verify it's in `package.json`:
+
+```bash
+cat package.json | grep playwright
+```
+
+You should see:
+
+```json
+"devDependencies": {
+  "@playwright/mcp": "^0.0.x"
+}
+```
+
+Also make sure your `package.json` scripts use `@playwright/mcp` and **not** `playwright run-test-mcp-server`:
+
+```json
+"scripts": {
+  "test": "playwright test",
+  "mcp": "npx @playwright/mcp"
+}
+```
+
+> ⚠️ `playwright run-test-mcp-server` ships with `@playwright/test` and only exposes test-runner tools — it does **not** give the AI live browser control. They are different packages.
+
+---
+
+### Step 2: Connect `@playwright/mcp` to your AI
+
+**Claude Desktop** — add the following to `claude_desktop_config.json`, replacing `/absolute/path/to/` with your actual path:
 
 ```json
 {
@@ -86,7 +120,64 @@ Your AI needs to know the MCP tools are available.
 }
 ```
 
-### Step 2: Generate tests with AI
+**VS Code (GitHub Copilot Agent mode)** — create `.vscode/mcp.json` in your project root:
+
+```json
+{
+  "servers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp"]
+    }
+  }
+}
+```
+
+**VS Code (Cline)** — go to the Cline sidebar → **MCP Servers** tab → add the server there.
+
+---
+
+### Step 3: Verify MCP is connected ✅
+
+Don't skip this — a misconfigured server silently fails and the AI will just say it has no browser tools.
+
+**Claude Desktop**
+
+1. Fully quit and reopen Claude Desktop after saving the config
+2. Open a new chat and look for the **🔨 hammer icon** in the input bar
+3. Click it — you should see tools like `browser_navigate`, `browser_click`, `browser_snapshot`, `browser_type`
+4. If the hammer icon is missing, check the logs:
+
+```bash
+# macOS
+tail -f ~/Library/Logs/Claude/mcp-server-playwright.log
+
+# Windows
+%APPDATA%\Claude\logs\mcp-server-playwright.log
+```
+
+**VS Code (Copilot)**
+
+1. Open Command Palette → `Ctrl+Shift+P` (Mac: `Cmd+Shift+P`)
+2. Type **"MCP: List Servers"** — `playwright` should show status `running`
+3. Check `View → Output → MCP` for any connection errors
+
+**VS Code (Cline)**
+
+1. Click the Cline icon in the sidebar
+2. Go to **MCP Servers** tab — `playwright` should show a green dot (**connected**)
+
+**Quick smoke test (works in any AI tool)**
+
+Send this prompt:
+
+> *"List all available MCP tools"*
+
+If connected, the AI lists `browser_navigate`, `browser_click`, `browser_snapshot`, etc. If it says it has no browser tools — the server isn't connected.
+
+---
+
+### Step 4: Generate tests with AI
 
 Open your AI chat window. Two modes available:
 
@@ -100,13 +191,17 @@ Open your AI chat window. Two modes available:
 
 > *"Run the tests. `seed.spec.ts` only checks that the app loads. Use MCP to explore the live TodoMVC app and add tests to `seed.spec.ts` for features not yet covered. Check `todo.spec.ts` afterwards to compare your output to the reference implementation."*
 
-### Step 3: Run the suite
+---
+
+### Step 5: Run the suite
 
 ```bash
 npm run test
 ```
 
-### Step 4: Auto-heal broken tests
+---
+
+### Step 6: Auto-heal broken tests
 
 Locators break. Let the AI fix them.
 
@@ -126,16 +221,16 @@ playwright-mcp/
 │   └── workflows/
 │       └── ci.yml            🔄 GitHub Actions CI pipeline
 ├── data/
-│   └── todo.data.ts      📦 Typed test data (no hardcoded strings in specs)
+│   └── todo.data.ts          📦 Typed test data (no hardcoded strings in specs)
 ├── fixtures/
-│   └── base.ts           🔌 Custom fixtures (auto-injects TodoPage)
+│   └── base.ts               🔌 Custom fixtures (auto-injects TodoPage)
 ├── pages/
-│   └── TodoPage.ts       🧱 Page Object Model + assertion helpers
+│   └── TodoPage.ts           🧱 Page Object Model + assertion helpers
 ├── specs/
-│   └── test-plan.md      📄 Plain-English test plan (AI entry point)
+│   └── test-plan.md          📄 Plain-English test plan (AI entry point)
 ├── tests/
-│   ├── seed.spec.ts      🌱 Blank canvas — AI writes tests here
-│   └── todo.spec.ts      ✅ Reference implementation
+│   ├── seed.spec.ts          🌱 Blank canvas — AI writes tests here
+│   └── todo.spec.ts          ✅ Reference implementation
 ├── .env.example              🌍 Environment template
 ├── playwright.config.ts      ⚙️  Env-aware Playwright configuration
 └── package.json              📦 Scripts & dependencies
@@ -159,8 +254,20 @@ playwright-mcp/
 | Requirement | Version |
 |---|---|
 | Node.js | v18 or higher |
-| @playwright/mcp | installed via `npm install` |
+| `@playwright/mcp` | `npm install @playwright/mcp --save-dev` |
 | Chromium | `npx playwright install chromium` |
+
+---
+
+## ❓ Common Issues
+
+| Symptom | Fix |
+|---|---|
+| 🔨 Hammer icon missing in Claude Desktop | Fully quit and reopen; check `claude_desktop_config.json` is valid JSON |
+| AI says it has no browser tools | Server not connected — check MCP logs or VS Code `Output → MCP` |
+| `npx @playwright/mcp` prompts to install | Run `npm install @playwright/mcp --save-dev` first |
+| MCP script uses `playwright run-test-mcp-server` | Update `package.json` scripts to use `npx @playwright/mcp` |
+| Tools listed but browser won't open | Run `npx playwright install chromium` |
 
 ---
 

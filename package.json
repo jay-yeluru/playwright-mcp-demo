@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test",
-    "mcp": "npx playwright run-test-mcp-server"
+    "mcp": "npx @playwright/mcp"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jay-yeluru/playwright-mcp#readme",
   "devDependencies": {
+    "@playwright/mcp": "^0.0.68",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.3",
     "typescript": "^5.9.3"
